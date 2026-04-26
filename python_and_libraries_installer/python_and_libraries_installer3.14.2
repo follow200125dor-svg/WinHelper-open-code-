@@ -1,0 +1,35 @@
+@echo off
+title Python 3.14.2 + Libraries Installer
+echo ============================================
+echo    PYTHON 3.14.2 + LIBRARIES INSTALLER
+echo ============================================
+echo.
+
+:: ====== PYTHON ======
+echo [1/2] Checking Python...
+where python >nul 2>nul
+if %errorlevel% neq 0 (
+    echo Python not found. Downloading 3.14.2...
+    powershell -Command "Invoke-WebRequest -Uri 'https://www.python.org/ftp/python/3.14.2/python-3.14.2-amd64.exe' -OutFile 'python-3.14.2.exe'"
+    echo Installing Python 3.14.2...
+    python-3.14.2.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0
+    del python-3.14.2.exe
+    set "PATH=%PATH%;C:\Python314;C:\Python314\Scripts;C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python314;C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python314\Scripts"
+    echo Python 3.14.2 installed!
+) else (
+    echo Python already installed.
+)
+
+:: ====== LIBRARIES ======
+echo.
+echo [2/2] Installing libraries...
+
+echo Installing deep-translator (translator)...
+pip install --quiet deep-translator
+echo Done!
+
+echo.
+echo ============================================
+echo    DONE!
+echo ============================================
+exit
